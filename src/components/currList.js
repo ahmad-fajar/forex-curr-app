@@ -1,14 +1,38 @@
 import React, { Component } from 'react'
 
 import {
+  Button,
   Col,
   Icon,
+  Popconfirm,
   Row
 } from 'antd'
 
 class CurrList extends Component {
   constructor() {
     super()
+  }
+
+  removeCurrIcon() {
+    return (
+      <Popconfirm
+      placement='bottomRight'
+      okType='danger'
+      icon={<Icon type='exclamation' style={{ color: 'red' }} />}
+      title='Remove this currency?'
+      onConfirm={() => this.removeCurrency()}
+      okText='Remove' cancelText='Cancel'
+      >
+        <Icon
+        type='close-circle'
+        style={style.closeBtn}
+        />
+      </Popconfirm>
+    )
+  }
+
+  removeCurrency() {
+    console.log('>>> remove')
   }
 
   render() {
@@ -23,7 +47,7 @@ class CurrList extends Component {
           <Row>USD 1 = IDR 9.999</Row>
         </Col>
         <Col>
-          <Icon type='close-circle' style={style.closeBtn}/>
+          { this.removeCurrIcon() }
         </Col>
       </Row>
     )

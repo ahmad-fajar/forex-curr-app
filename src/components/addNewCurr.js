@@ -4,6 +4,8 @@ import { Form, Button, Select } from 'antd'
 
 import { currencies } from '../const/currency.js'
 
+import { currencyObjToArr } from '../util/convert'
+
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -16,11 +18,7 @@ class AddNewCurr extends Component {
   }
 
   getCurrencies() {
-    let arr = []
-
-    for (var key in currencies) {
-      arr.push({short: key, long: currencies[key]})
-    }
+    let arr = currencyObjToArr(currencies)
 
     this.setState({
       currencies: arr
@@ -39,8 +37,8 @@ class AddNewCurr extends Component {
         {
           this.state.currencies.map((v, i) => {
             return (
-              <Option value={v.short} key={i}>
-                {v.short} - {v.long}
+              <Option value={v.code} key={i}>
+                {v.code} - {v.name}
               </Option>
             )
           })
@@ -61,7 +59,7 @@ class AddNewCurr extends Component {
             { this.options() }
           </FormItem>
           <FormItem>
-            <Button type="primary">Submit</Button>
+            <Button type="primary">Add</Button>
           </FormItem>
         </Form>
       </div>

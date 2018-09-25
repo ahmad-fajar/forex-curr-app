@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Row>
         <Col span={12} offset={6}>
-          <h1>Foreign Exchange Currency App Exercise</h1>
+          <h1 style={style.title}>Foreign Exchange Currency App Exercise</h1>
           <Main />
         </Col>
       </Row>
@@ -19,21 +19,11 @@ class App extends Component {
   }
 }
 
+const style = {
+  title: {
+    'textAlign': 'center',
+    'margin': '20px 0'
+  }
+}
+
 export default App;
-
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <h1 className="App-title">Welcome to React</h1>
-//         </header>
-//         <p className="App-intro">
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//         </p>
-//       </div>
-//     );
-//   }
-// }
