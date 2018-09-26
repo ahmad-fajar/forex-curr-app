@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import store from '../store/index'
 
 import { Form, Button, Select } from 'antd'
-
-import { currencies } from '../const/currency.js'
-
-import { currencyObjToArr } from '../util/convert'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -17,15 +16,9 @@ class AddNewCurr extends Component {
     }
   }
 
-  getCurrencies() {
-    let arr = currencyObjToArr(currencies)
-
-    this.setState({
-      currencies: arr
-    })
-  }
-
   options() {
+    // let currencyData = this.props.currenciesArr
+    let currencyData = store.getState().currencyManager.currenciesArr
     return (
       <Select
         showSearch
@@ -35,7 +28,7 @@ class AddNewCurr extends Component {
         filterOption={(input, option) => option.props.currencyCode.toLowerCase().indexOf(input.toLowerCase()) >= 0}
       >
         {
-          this.state.currencies.map((v, i) => {
+          currencyData.map((v, i) => {
             return (
               <Option value={v.code} key={i}>
                 {v.code} - {v.name}
@@ -45,10 +38,6 @@ class AddNewCurr extends Component {
         }
       </Select>
     )
-  }
-
-  componentWillMount () {
-    this.getCurrencies()
   }
 
   render() {
@@ -77,4 +66,15 @@ const style = {
   }
 }
 
-export default AddNewCurr
+const mapStateToProps = state => {
+  return {
+    currenciesArr: state.currencyManager.currenciesArr
+  }
+}
+
+const mapDispatchToProps = disptch => {
+  return {}
+}
+
+// export default AddNewCurr
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewCurr)

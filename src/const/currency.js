@@ -1,4 +1,4 @@
-exports.currencies = {
+export const currencies = {
   'USD': 'United States Dollar',
   'CAD': 'Canadian Dollar',
   'IDR': 'Indonesian Rupiah',
@@ -10,3 +10,5 @@ exports.currencies = {
   'JPY': 'Japanese Yen',
   'KRW': 'Korean Won'
 }
+
+export const baseURL = 'https://api.exchangeratesapi.io/latest'

@@ -8,19 +8,24 @@ import { Divider } from 'antd'
 class CurrListWrap extends Component {
   constructor() {
     super()
+    this.state = {
+      shownCurrencies: ['IDR', 'JPY', 'KRW', 'GBP']
+    }
   }
 
   render() {
     return (
       <div style={style.wrap}>
-        <CurrList/>
-        <Divider style={style.divider}/>
-        <CurrList/>
-        <Divider style={style.divider}/>
-        <CurrList/>
-        <Divider style={style.divider}/>
-        <CurrList/>
-        <Divider style={style.divider}/>
+        {
+          this.state.shownCurrencies.map((val, idx) => {
+            return (
+              <div key={idx}>
+                <CurrList state={{symbol: val}} />
+                <Divider style={style.divider}/>
+              </div>
+            )
+          })
+        }
         <AddNewCurr/>
       </div>
     )
@@ -30,7 +35,8 @@ class CurrListWrap extends Component {
 
 const style = {
   wrap: {
-    'padding': '5px' 
+    'padding': '5px',
+    'marginTop': '10px'
   },
 
   divider: {

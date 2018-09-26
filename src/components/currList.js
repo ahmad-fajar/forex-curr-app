@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import store from '../store/index'
+
+import { currencyFormatter, eRFormatter } from '../util/formatter'
 
 import {
   Button,
@@ -11,7 +16,14 @@ import {
 class CurrList extends Component {
   constructor() {
     super()
+    this.state = {
+      baseAmount: 0,
+      er: 0,
+      name: '',
+      symbol: ''
+    }
   }
+
 
   removeCurrIcon() {
     return (
@@ -35,16 +47,34 @@ class CurrList extends Component {
     console.log('>>> remove')
   }
 
+  componentWillMount() {
+    this.setState({
+      symbol: this.props.state.symbol,
+      baseAmount: this.props.baseInfo.baseAmount,
+      name: this.props.baseInfo.currencies[this.props.state.symbol]
+    })
+  }
+
+  componentDidMount() {}
+
   render() {
+    let er = (this.props.baseInfo.er[this.state.symbol])
+    let erFmt = eRFormatter(er)
+    let calculatedFmt = currencyFormatter((this.state.baseAmount * er))
+    // if (er !== undefined) er = er.toFixed(2)
     return (
       <Row>
         <Col span={18}>
           <Row>
-            <Col span={16}>IDR</Col>
-            <Col>9.999.000</Col>
+            <Col span={16} onClick={() => this.getBaseInfoFromStore()}>{ this.state.symbol }</Col>
+            <Col>
+              { calculatedFmt }
+            </Col>
           </Row>
-          <Row>IDR - Indonesian Rupiah</Row>
-          <Row>USD 1 = IDR 9.999</Row>
+          <Row>{ this.state.symbol } - { this.state.name }</Row>
+          <Row>
+            USD 1 = { this.state.symbol } { erFmt }
+          </Row>
         </Col>
         <Col>
           { this.removeCurrIcon() }
@@ -61,4 +91,15 @@ const style = {
   }
 }
 
-export default CurrList
+const mapStateToProps = state => {
+  return {
+    baseInfo: state.currencyManager
+  }
+}
+
+const mapDispatchToProps = disptch => {
+  return {}
+}
+
+// export default CurrList
+export default connect(mapStateToProps, mapDispatchToProps)(CurrList)

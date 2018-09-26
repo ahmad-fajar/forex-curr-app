@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import store from '../store/index'
+import { connect } from 'react-redux'
 
 import { Row, Col } from 'antd'
 
-import { currencies } from '../const/currency'
+import { getCurrSymbol, getERData } from '../actions/CurrencyAction'
 
 import { currencyObjToArr } from '../util/convert'
-import axios from 'axios'
 
 import BaseCurr from './baseCurr'
 import CurrListWrap from './currListWrap'
@@ -19,39 +20,9 @@ class Main extends Component {
     }
   }
 
-  getCurrencySymbols(currObj) {
-    // TODO. simpen currency arr ke store, terus hapus
-    // getCurrencies di addNewCurr
-    let currencyArr = currencyObjToArr(currObj)
-    let symbolArr = []
-
-    currencyArr.forEach(el => {
-      symbolArr.push(el.code)
-    })
-
-    this.setState({
-      symbols: symbolArr.join(',')
-    })
-  }
-
-  getCurrenciesInfo(base, symbols) {
-    axios({
-      method: 'GET',
-      url: 'https://api.exchangeratesapi.io/latest',
-      params: {
-        base: base,
-        symbols: symbols
-      }
-    })
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(e => console.log(e))
-  }
-
-  async componentWillMount() {
-    await this.getCurrencySymbols(currencies)
-    await this.getCurrenciesInfo(this.state.base, this.state.symbols)
+  componentWillMount = async () => {
+    await this.props.getCurrSymbol()
+    await this.props.getERData('USD')
   }
 
   render() {
@@ -79,4 +50,18 @@ const style = {
   }
 }
 
-export default Main
+const mapStateToProps = state => {
+  return {
+    currenciesArr: state.currencyManager.currenciesArr
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCurrSymbol: () => dispatch(getCurrSymbol()),
+    getERData: base => dispatch(getERData(base))
+  }
+}
+
+// export default Main
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
