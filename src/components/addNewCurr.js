@@ -12,12 +12,11 @@ class AddNewCurr extends Component {
   constructor() {
     super()
     this.state = {
-      currencies: []
+      selected: ''
     }
   }
 
   options() {
-    // let currencyData = this.props.currenciesArr
     let currencyData = store.getState().currencyManager.currenciesArr
     return (
       <Select
@@ -26,11 +25,12 @@ class AddNewCurr extends Component {
         placeholder="currency code"
         optionFilterProp="currencyCode"
         filterOption={(input, option) => option.props.currencyCode.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        onChange={e => this.selectChangeHandler(e)}
       >
         {
           currencyData.map((v, i) => {
             return (
-              <Option value={v.code} key={i}>
+              <Option value={v.code} key={i} name={v.code}>
                 {v.code} - {v.name}
               </Option>
             )
@@ -40,15 +40,32 @@ class AddNewCurr extends Component {
     )
   }
 
+  selectChangeHandler(val) {
+    this.setState({
+      selected: val
+    })
+  }
+
+  submit(e) {
+    e.preventDefault()
+    this.props.props.addList(this.state.selected)
+  }
+
+  componentDidMount() {}
+
   render() {
     return (
       <div>
-        <Form layout={'vertical'} style={style.form}>
+        <Form
+          layout={'vertical'}
+          style={style.form}
+          onSubmit={(e) => this.submit(e)}
+        >
           <FormItem label="Add Currency">
             { this.options() }
           </FormItem>
           <FormItem>
-            <Button type="primary">Add</Button>
+            <Button type="primary" htmlType='submit'>Add</Button>
           </FormItem>
         </Form>
       </div>

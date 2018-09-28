@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import store from '../store/index'
+import equal from 'fast-deep-equal'
 
 import { currencyFormatter, eRFormatter } from '../util/formatter'
 
 import {
-  Button,
   Col,
   Icon,
   Popconfirm,
@@ -14,8 +12,8 @@ import {
 } from 'antd'
 
 class CurrList extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       baseAmount: 0,
       er: 0,
@@ -44,10 +42,10 @@ class CurrList extends Component {
   }
 
   removeCurrency() {
-    console.log('>>> remove')
+    this.props.props.deleteList(this.state.symbol)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       symbol: this.props.state.symbol,
       baseAmount: this.props.baseInfo.baseAmount,
@@ -55,19 +53,25 @@ class CurrList extends Component {
     })
   }
 
-  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    if(!equal(this.props.state.symbol, prevProps.state.symbol)) {
+      this.setState({
+        symbol: this.props.state.symbol
+      })
+    }
+  }
+
 
   render() {
     let er = (this.props.baseInfo.er[this.state.symbol])
-    let erFmt = eRFormatter(er)
+    let erFmt = currencyFormatter(eRFormatter(er))
     let calculatedFmt = currencyFormatter((this.state.baseAmount * er))
-    // if (er !== undefined) er = er.toFixed(2)
     return (
-      <Row>
+      <Row ref={ this.state.symbol }>
         <Col span={18}>
           <Row>
-            <Col span={16} onClick={() => this.getBaseInfoFromStore()}>{ this.state.symbol }</Col>
-            <Col>
+            <Col span={16}>{ this.state.symbol }</Col>
+            <Col style={style.calculatedValue}>
               { calculatedFmt }
             </Col>
           </Row>
@@ -88,6 +92,10 @@ class CurrList extends Component {
 const style = {
   closeBtn: {
     'color': 'red'
+  },
+  calculatedValue: {
+    'textAlign': 'right',
+    'paddingRight': '6px'
   }
 }
 
@@ -97,7 +105,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = disptch => {
+const mapDispatchToProps = dispatch => {
   return {}
 }
 

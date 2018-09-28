@@ -1,5 +1,5 @@
 const defaultState = {
-  baseAmount: 100, // FIXME
+  baseAmount: 1,
   currencies: {},
   currenciesArr: [],
   currencySymbol: '',
@@ -20,6 +20,12 @@ const currencyReducer = (state = defaultState, action) => {
       return {
         ...state,
         er: action.payload.er
+      }
+
+    case 'STORE_BASE_AMOUNT':
+      return {
+        ...state,
+        baseAmount: action.payload.baseAmount
       }
 
     default:

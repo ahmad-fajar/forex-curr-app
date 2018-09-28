@@ -1,17 +1,40 @@
 import React, { Component } from 'react'
-
-import CurrList from './currList'
-import AddNewCurr from './addNewCurr'
-
 import { Divider } from 'antd'
 
+import AddNewCurr from './addNewCurr'
+import CurrList from './currList'
+
 class CurrListWrap extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      shownCurrencies: ['IDR', 'JPY', 'KRW', 'GBP']
+      shownCurrencies: []
     }
   }
+
+  deleteList(sym) {
+    let shown = this.state.shownCurrencies
+    let newShown = el => {
+      let idx = shown.indexOf(el)
+      let newArr = shown.slice(0, idx)
+      newArr = newArr.concat(shown.slice(idx+1))
+      return newArr
+    }
+
+    this.setState({
+      shownCurrencies: newShown(sym)
+    })
+  }
+
+  addList(sym) {
+    let newArr = this.state.shownCurrencies
+    newArr.push(sym)
+    this.setState({
+      shownCurrencies: newArr
+    })
+  }
+
+  componentDidUpdate() {}
 
   render() {
     return (
@@ -19,18 +42,17 @@ class CurrListWrap extends Component {
         {
           this.state.shownCurrencies.map((val, idx) => {
             return (
-              <div key={idx}>
-                <CurrList state={{symbol: val}} />
-                <Divider style={style.divider}/>
+              <div key={idx} id={val}>
+                <CurrList state={{symbol: val}} props={{deleteList: this.deleteList.bind(this)}}/>
+                <Divider style={style.divider} />
               </div>
             )
           })
         }
-        <AddNewCurr/>
+        <AddNewCurr props={{addList: this.addList.bind(this)}}/>
       </div>
     )
   }
-
 }
 
 const style = {

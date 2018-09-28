@@ -46,7 +46,6 @@ export const storeERData = payload => {
 
 export const getERData = (base) => {
   return (dispatch, getState) => {
-    let data = {}
     let symbols = getState().currencyManager.currencySymbol
   
     axios({
@@ -64,5 +63,22 @@ export const getERData = (base) => {
       }))
     })
     .catch(e => console.log(e))
+  }
+}
+
+export const baseAmount = payload => {
+  return {
+    type: 'STORE_BASE_AMOUNT',
+    payload: {
+      baseAmount: payload.baseAmount
+    }
+  }
+}
+
+export const storeBaseAmount = amount => {
+  return (dispatch, getState) => {
+    dispatch(baseAmount({
+      baseAmount: amount
+    }))
   }
 }

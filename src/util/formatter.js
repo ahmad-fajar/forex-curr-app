@@ -7,7 +7,7 @@ export const currencyFormatter = val => {
 
   let count = 0
   for (var i = 0; i <= revLeft.length - 1; i++) {
-    if (count !== 0 && count % 3 == 0) result.push(revLeft[i] + ',')
+    if (count !== 0 && count % 3 === 0) result.push(revLeft[i] + ',')
     else result.push(revLeft[i])
     count++
   }
@@ -18,6 +18,6 @@ export const currencyFormatter = val => {
 export const eRFormatter = (er = 0) => {
   let left = ('' + er).split('.')[0]
 
-  if (left == '0') return er.toFixed(4)
+  if (left === '0') return er.toFixed(4)
   else return er.toFixed(2)
 }
