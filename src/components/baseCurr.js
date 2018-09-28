@@ -21,7 +21,7 @@ class BaseCurr extends Component {
   }
 
   amountChangeHandler(e) {
-    let val = (!e.target.value || e.target.value === '') ? 1 : e.target.value
+    let val = (!e.target.value || e.target.value === '' || e.target.value < 0) ? 1 : e.target.value
     this.setState({
       amount: val
     })
