@@ -65,7 +65,7 @@ class CurrList extends Component {
   render() {
     let er = (this.props.baseInfo.er[this.state.symbol])
     let erFmt = currencyFormatter(eRFormatter(er))
-    let calculatedFmt = currencyFormatter((this.state.baseAmount * er))
+    let calculatedFmt = currencyFormatter(this.props.baseInfo.baseAmount * er)
     return (
       <Row ref={ this.state.symbol }>
         <Col span={18}>

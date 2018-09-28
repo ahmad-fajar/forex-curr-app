@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Col, Row } from 'antd'
+import {
+  Col,
+  Form,
+  Input,
+  Row
+} from 'antd'
 
 import { getCurrSymbol, getERData, storeBaseAmount } from '../actions/CurrencyAction'
+
+const FormItem = Form.Item
 
 class BaseCurr extends Component {
   constructor() {
@@ -13,12 +20,19 @@ class BaseCurr extends Component {
     }
   }
 
+  amountChangeHandler(e) {
+    let val = (!e.target.value || e.target.value === '') ? 1 : e.target.value
+    this.setState({
+      amount: val
+    })
+    this.props.storeBaseAmount(val)
+  }
+
   componentWillMount = async () => {
     await this.props.getERData(this.state.base)
   }
   
   componentDidMount() {
-    this.props.storeBaseAmount(this.state.amount)
     this.props.getCurrSymbol()
   }
 
@@ -30,8 +44,14 @@ class BaseCurr extends Component {
           <h3>
             <strong>
               <Row>
-                <Col span={16}>{this.state.base}</Col>
-                <Col>{this.state.amount}</Col>
+                <Col span={12}>{this.state.base}</Col>
+                <Col span={12}>
+                  <Form layout='inline'>
+                    <FormItem>
+                    <Input placeholder="amount" name="amount" type='number' onChange={e => this.amountChangeHandler(e)} />
+                    </FormItem>
+                  </Form>
+                </Col>
               </Row>
             </strong>
           </h3>
