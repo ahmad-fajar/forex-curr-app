@@ -32,8 +32,8 @@ class BaseCurr extends Component {
     await this.props.getERData(this.state.base)
   }
   
-  componentDidMount() {
-    this.props.getCurrSymbol()
+  componentDidMount = async () => {
+    await this.props.getCurrSymbol()
   }
 
   render() {
@@ -42,18 +42,21 @@ class BaseCurr extends Component {
         <div>USD - United States Dollars</div>
         <div>
           <h3>
-            <strong>
-              <Row>
-                <Col span={12}>{this.state.base}</Col>
-                <Col span={12}>
-                  <Form layout='inline'>
-                    <FormItem>
-                    <Input placeholder="amount" name="amount" type='number' onChange={e => this.amountChangeHandler(e)} />
-                    </FormItem>
-                  </Form>
-                </Col>
-              </Row>
-            </strong>
+            <Row>
+              <strong><Col span={12}>{this.state.base}</Col></strong>
+              <Col span={12}>
+                <Form layout='inline'>
+                  <FormItem>
+                  <Input
+                    placeholder="amount"
+                    name="amount"
+                    type='number'
+                    onChange={e => this.amountChangeHandler(e)}
+                  />
+                  </FormItem>
+                </Form>
+              </Col>
+            </Row>
           </h3>
         </div>
       </div>

@@ -2,13 +2,13 @@ import axios from 'axios'
 
 import { baseURL, currencies } from '../const/currency'
 
-import { currencyObjToArr } from '../util/convert'
 
+// store currency key-value from ../const/currency
 export const storeCurrSymbol = payload => {
   return {
     type: 'STORE_CURR_SYMBOL',
     payload: {
-      currencies: currencies,
+      currencies: payload.currencies,
       currenciesArr: payload.currenciesArr,
       currencySymbol: payload.currencySymbol
     }
@@ -16,18 +16,19 @@ export const storeCurrSymbol = payload => {
 }
 
 export const getCurrSymbol = () => {
-  let currArr = []
-  let symbolArr = []
-  for (var k in currencies) {
-    currArr.push({
-      code: k,
-      name: currencies[k]
-    })
-    symbolArr.push(k)
-  }
-
   return (dispatch, getState) => {
+    let currArr = []
+    let symbolArr = []
+    for (var k in currencies) {
+      currArr.push({
+        code: k,
+        name: currencies[k]
+      })
+      symbolArr.push(k)
+    }
+
     dispatch(storeCurrSymbol({
+      currencies: currencies,
       currenciesArr: currArr,
       currencySymbol: symbolArr.join(',')
     }))
@@ -35,6 +36,7 @@ export const getCurrSymbol = () => {
 }
 
 
+// store er data fetched from api
 export const storeERData = payload => {
   return {
     type: 'STORE_ER_DATA',
@@ -54,7 +56,8 @@ export const getERData = (base) => {
       params: {
         base: base,
         symbols: symbols
-      }
+      },
+      timeout: 2000
     })
     .then(res => {
       // console.log('>>> res', res.data)
@@ -62,10 +65,12 @@ export const getERData = (base) => {
         er: res.data.rates
       }))
     })
-    .catch(e => console.log(e))
+    .catch(e => {/*console.log(e.stack)*/})
   }
 }
 
+
+// amount of base currency
 export const baseAmount = payload => {
   return {
     type: 'STORE_BASE_AMOUNT',

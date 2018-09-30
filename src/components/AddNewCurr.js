@@ -16,6 +16,7 @@ class AddNewCurr extends Component {
     }
   }
 
+  // options for select dropdown
   options() {
     let currencyData = store.getState().currencyManager.currenciesArr
     return (
@@ -48,6 +49,8 @@ class AddNewCurr extends Component {
 
   submit(e) {
     e.preventDefault()
+
+    // props event to parent currListWrap 
     this.props.props.addList(this.state.selected)
   }
 

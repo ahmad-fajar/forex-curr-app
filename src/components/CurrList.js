@@ -26,12 +26,12 @@ class CurrList extends Component {
   removeCurrIcon() {
     return (
       <Popconfirm
-      placement='bottomRight'
-      okType='danger'
-      icon={<Icon type='exclamation' style={{ color: 'red' }} />}
-      title='Remove this currency?'
-      onConfirm={() => this.removeCurrency()}
-      okText='Remove' cancelText='Cancel'
+        placement='bottomRight'
+        okType='danger'
+        icon={<Icon type='exclamation' style={{ color: 'red' }} />}
+        title='Remove this currency?'
+        onConfirm={() => this.removeCurrency()}
+        okText='Remove' cancelText='Cancel'
       >
         <Icon
         type='close-circle'
@@ -42,6 +42,7 @@ class CurrList extends Component {
   }
 
   removeCurrency() {
+    // props event to parent currListWrap
     this.props.props.deleteList(this.state.symbol)
   }
 
@@ -63,9 +64,10 @@ class CurrList extends Component {
 
 
   render() {
-    let er = (this.props.baseInfo.er[this.state.symbol])
+    let er = this.props.baseInfo.er[this.state.symbol]
     let erFmt = currencyFormatter(eRFormatter(er))
     let calculatedFmt = currencyFormatter(this.props.baseInfo.baseAmount * er)
+
     return (
       <Row ref={ this.state.symbol }>
         <Col span={18}>
@@ -91,7 +93,8 @@ class CurrList extends Component {
 
 const style = {
   closeBtn: {
-    'color': 'red'
+    'color': 'red',
+    'textAlign': 'center'
   },
   calculatedValue: {
     'textAlign': 'right',

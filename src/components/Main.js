@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 
-import BaseCurr from './baseCurr'
-import CurrListWrap from './currListWrap'
+import BaseCurr from './BaseCurr'
+import CurrListWrap from './CurrListWrap'
 
 class Main extends Component {
   constructor() {
     super()
+    this.state = {
+      abcd: 100
+    }
   }
 
   render() {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Divider } from 'antd'
 
-import AddNewCurr from './addNewCurr'
-import CurrList from './currList'
+import AddNewCurr from './AddNewCurr'
+import CurrList from './CurrList'
 
 class CurrListWrap extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class CurrListWrap extends Component {
     }
   }
 
+  // this function propped to children currList
   deleteList(sym) {
     let shown = this.state.shownCurrencies
     let newShown = el => {
@@ -26,6 +27,7 @@ class CurrListWrap extends Component {
     })
   }
 
+  // this function propped to children addNewCurr
   addList(sym) {
     let newArr = this.state.shownCurrencies
     newArr.push(sym)

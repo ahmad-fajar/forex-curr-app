@@ -3,12 +3,11 @@ import { Provider } from 'react-redux'
 
 import store from './store/index'
 
-import logo from './logo.svg';
 import './App.css';
 
 import { Row, Col } from 'antd'
 
-import Main from './components/main'
+import Main from './components/Main'
 
 class App extends Component {
   render() {

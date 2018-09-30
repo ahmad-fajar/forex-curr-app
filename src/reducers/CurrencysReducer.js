@@ -1,8 +1,18 @@
 const defaultState = {
+  // initial bse amount
   baseAmount: 1,
+
+  // all currenies symbol-name in single object
   currencies: {},
+
+  // array of object. each element contain one currency 
+  // symbol and name info
   currenciesArr: [],
+
+  // all used currency symbols in single string. used for api call parameter
   currencySymbol: '',
+
+  // exchange rate info from api
   er: {}
 }
 
